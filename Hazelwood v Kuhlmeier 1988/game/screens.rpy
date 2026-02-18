@@ -114,7 +114,7 @@ screen say(who, what):
     ## If there's a side image, display it above the text. Do not display on the
     ## phone variant - there's no room.
     if not renpy.variant("small"):
-        add SideImage() xalign 0.0 yalign 1.0
+        add SideImage() xalign 0.0 yalign 1.0 xoffset -80 zoom 0.25
 
 
 ## Make the namebox available for styling through the Character object.
@@ -236,27 +236,44 @@ style choice_button_text is default:
 ## The quick menu is displayed in-game to provide easy access to the out-of-game
 ## menus.
 
+style quick_nav:
+
+    background Image("gui/quick_nav.png")
+    xalign 0.5
+    yalign 1.0
+    xsize 1249
+    ysize 58
+
 screen quick_menu():
 
     ## Ensure this appears on top of other screens.
     zorder 100
 
+
     if quick_menu:
 
-        hbox:
-            style_prefix "quick"
+        frame:
+            style "quick_nav"
 
             xalign 0.5
-            yalign 1.0
+            # yalign 1.0
+            ## adding styling - kaylee
+            yalign 0.0
 
-            textbutton _("Back") action Rollback()
-            textbutton _("History") action ShowMenu('history')
-            textbutton _("Skip") action Skip() alternate Skip(fast=True, confirm=True)
-            textbutton _("Auto") action Preference("auto-forward", "toggle")
-            textbutton _("Save") action ShowMenu('save')
-            textbutton _("Q.Save") action QuickSave()
-            textbutton _("Q.Load") action QuickLoad()
-            textbutton _("Prefs") action ShowMenu('preferences')
+            hbox:
+                xalign 0.5
+                yalign 0.35
+                style_prefix "quick"
+                spacing 20
+
+                textbutton _("Back") action Rollback()
+                textbutton _("History") action ShowMenu('history')
+                textbutton _("Skip") action Skip() alternate Skip(fast=True, confirm=True)
+                textbutton _("Auto") action Preference("auto-forward", "toggle")
+                textbutton _("Save") action ShowMenu('save')
+                textbutton _("Q.Save") action QuickSave()
+                textbutton _("Q.Load") action QuickLoad()
+                textbutton _("Prefs") action ShowMenu('preferences')
 
 
 ## This code ensures that the quick_menu screen is displayed in-game, whenever
